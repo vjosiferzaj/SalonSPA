@@ -80,7 +80,14 @@
       }
 
       function cancelAppointment(id) {
-        alert("Appointment ID " + id + " cancelled");
+        const confirmBox = confirm(
+          "Are you sure you want to cancel this appointment?"
+        );
+        if (confirmBox) {
+          upcoming = upcoming.filter((app) => app.id !== id);
+          renderAppointments(upcoming, "upcomingAppointments");
+          alert("Appointment cancelled.");
+        }
       }
       function confirmCancel(id) {
         const confirmBox = confirm(
@@ -92,7 +99,17 @@
         }
       }
       function rescheduleAppointment(id) {
-        alert("Reschedule logic for appointment ID " + id);
+        let newDate = prompt("Enter a new date (YYYY-MM-DD):");
+        if (newDate && /^\d{4}-\d{2}-\d{2}$/.test(newDate)) {
+          let app = upcoming.find((app) => app.id === id);
+          if (app) {
+            app.date = newDate;
+            renderAppointments(upcoming, "upcomingAppointments");
+            alert("Appointment rescheduled to " + newDate);
+          }
+        } else if (newDate) {
+          alert("Invalid date format. Use YYYY-MM-DD.");
+        }
       }
       function openReschedule(id) {
         let newDate = prompt("Pick a new date (YYYY-MM-DD):");
