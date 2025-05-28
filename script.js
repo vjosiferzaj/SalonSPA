@@ -47,10 +47,12 @@ document.addEventListener("DOMContentLoaded", () => {
     card.addEventListener("click", () => {
       const detailsContainer = document.getElementById("service-details");
 
-      // Clear previous details
+
+
+  
       detailsContainer.innerHTML = "";
 
-      // Create details content dynamically
+
       const detailCard = document.createElement("div");
       detailCard.style.background = "rgba(255, 255, 255, 0.15)";
       detailCard.style.backdropFilter = "blur(8px)";
@@ -67,7 +69,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
       detailsContainer.appendChild(detailCard);
 
-      // Scroll to the service details
+
       detailCard.scrollIntoView({ behavior: "smooth" });
     });
   });
@@ -99,7 +101,7 @@ const staffAppointments = [
   },
 ];
 
-// Show the selected panel only
+
 function showStaffPanel(panelId) {
   document.querySelectorAll(".staff-panel").forEach((p) => {
     p.style.display = p.id === panelId ? "block" : "none";
@@ -198,7 +200,7 @@ document.addEventListener("DOMContentLoaded", () => {
       category.charAt(0).toUpperCase() + category.slice(1)
     } service`;
 
-    // Clear and populate dropdown
+
     select.innerHTML =
       '<option value="" disabled selected>Select a type</option>';
     const options = subcategories[category];
@@ -261,7 +263,7 @@ document.addEventListener("DOMContentLoaded", () => {
     document.getElementById("calendarModal").style.display = "none";
   }
 
-  // Attach card click listeners AFTER DOM is loaded
+
   document.querySelectorAll(".swiper-slide").forEach((card) => {
     card.addEventListener("click", () => {
       const category = card.getAttribute("data-category");
@@ -269,7 +271,7 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   });
 
-  // Expose functions to global scope if needed by buttons
+
   window.confirmAppointment = confirmAppointment;
   window.closeModal = closeModal;
 });
@@ -361,7 +363,7 @@ const btn = dropdown.querySelector(".dropdown-btn");
 const menu = dropdown.querySelector(".dropdown-menu");
 const hiddenInput = dropdown.querySelector("#role-select");
 
-// Set initial button text to default hidden input value label
+
 const defaultValue = hiddenInput.value;
 const defaultLabel = menu.querySelector(
   `li[data-value="${defaultValue}"]`
@@ -392,12 +394,12 @@ function showPanel(panelId) {
 }
 
 function logout() {
-  // Hide all views by setting display:none
+
   document.querySelectorAll(".view").forEach((view) => {
     view.style.display = "none";
   });
 
-  // Show login-section by setting display:block (or flex/grid as needed)
+
   const login = document.getElementById("login-section");
   if (login) {
     login.style.display = "block";
