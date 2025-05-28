@@ -111,20 +111,41 @@ button {
 }
 
 button:hover {
-  background: #bb5c1dd9;
+  background: #e3c393d9;
 }
 
 /* === Login Box === */
 .login-box {
+  position: relative;
   max-width: 400px;
   margin: 5rem auto;
   padding: 2rem;
-  background: white;
+  background: rgba(255 255 255 / 0.2);
   border-radius: 10px;
   box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
   animation: slideIn 0.7s ease;
 }
+#login-section {
+  position: relative;
+  overflow: hidden;
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: #000; /* fallback color */
+}
 
+#login-bg-video {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transform: translate(-50%, -50%);
+  z-index: 0;
+  filter: brightness(0.5); /* optional, to darken video for readability */
+}
 /* === Navbar === */
 .user-navbar {
   display: flex;
@@ -140,6 +161,13 @@ button:hover {
   z-index: 1000;
   font-weight: 600;
   color: white;
+}
+.login-box h2 {
+  background: linear-gradient(90deg, #fff, #ccc);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: floatIn 1s ease forwards;
+  text-shadow: 0 0 2px #e7ceab;
 }
 
 .user-navbar .nav-left {
@@ -161,7 +189,7 @@ button:hover {
 }
 
 .user-navbar a.book-button {
-  background-color: #ad8522;
+  background-color: #e6cca6;
   color: #ffffff !important;
   padding: 0.4rem 1.1rem;
   border-radius: 20px;
@@ -169,7 +197,68 @@ button:hover {
 }
 
 .user-navbar a.book-button:hover {
-  background-color: #976d21;
+  background-color: #e7d4b1;
+}
+.custom-dropdown {
+  position: relative;
+  width: 100%;
+  margin-bottom: 15px;
+  font-family: inherit;
+  font-size: 16px;
+  color: #333; /* Text color inside dropdown */
+}
+
+.dropdown-btn {
+  width: 100%;
+  padding: 10px 15px;
+  background: #fff;
+  border: 1.5px solid #ccc;
+  border-radius: 8px;
+  cursor: pointer;
+  text-align: left;
+  color: #333; /* Dark text */
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.dropdown-btn:hover,
+.dropdown-btn:focus {
+  border-color: #f2e0c4;
+  box-shadow: 0 0 8px #d7c4a6;
+  outline: none;
+}
+
+.dropdown-menu {
+  list-style: none;
+  padding: 0;
+  margin: 5px 0 0;
+  border: 1.5px solid #ccc;
+  border-radius: 8px;
+  background: #fff;
+  color: #333; /* Text color in dropdown list */
+  position: absolute;
+  width: 100%;
+  max-height: 0;
+  overflow: hidden;
+  opacity: 0;
+  transition: max-height 0.3s ease, opacity 0.3s ease;
+  z-index: 100;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+}
+
+.custom-dropdown.open .dropdown-menu {
+  max-height: 200px;
+  opacity: 1;
+  overflow-y: auto;
+}
+
+.dropdown-menu li {
+  padding: 10px 15px;
+  cursor: pointer;
+  user-select: none;
+}
+.dropdown-menu li:hover {
+  background-color: #eed2a4;
+  color: white;
 }
 
 /* === Welcome & Info Sections === */
@@ -410,7 +499,7 @@ button:hover {
 }
 
 #admin-dashboard button:hover {
-  background: #d49c58;
+  background: #dfc19d;
 }
 
 #location {
