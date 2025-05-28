@@ -391,6 +391,21 @@ function showPanel(panelId) {
   });
 }
 
+function logout() {
+  // Hide all views by setting display:none
+  document.querySelectorAll(".view").forEach((view) => {
+    view.style.display = "none";
+  });
+
+  // Show login-section by setting display:block (or flex/grid as needed)
+  const login = document.getElementById("login-section");
+  if (login) {
+    login.style.display = "block";
+  } else {
+    console.error("login-section not found");
+  }
+}
+
 // Render on load
 renderAppointments();
 showStaffPanel("schedulePanel");
