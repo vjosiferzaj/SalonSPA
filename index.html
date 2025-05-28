@@ -85,9 +85,13 @@
         </p>
       </section>
       <h2 class="select-service-label">Select a Service</h2>
-      <div class="swiper-container">
+      <div class="swiper-container" id="services-section">
         <div class="swiper-wrapper">
-          <div class="swiper-slide" data-category="hair">
+          <div
+            class="swiper-slide"
+            data-category="Hair"
+            onclick="selectService('Hair')"
+          >
             <img
               src="images/hair.jpg"
               alt="Hair"
@@ -96,7 +100,11 @@
             <h3>Hair</h3>
             <p>Haircuts, coloring, styling</p>
           </div>
-          <div class="swiper-slide" data-category="nails">
+          <div
+            class="swiper-slide"
+            data-category="Nails"
+            onclick="selectService('Nails')"
+          >
             <img
               src="images/nails.jpg"
               alt="Nails"
@@ -105,7 +113,11 @@
             <h3>Nails</h3>
             <p>Manicure, pedicure, nail art</p>
           </div>
-          <div class="swiper-slide" data-category="massage">
+          <div
+            class="swiper-slide"
+            data-category="Massage"
+            onclick="selectService('Massage')"
+          >
             <img
               src="images/massage.jpg"
               alt="Massage"
@@ -114,7 +126,11 @@
             <h3>Massage</h3>
             <p>Swedish, deep tissue, aromatherapy</p>
           </div>
-          <div class="swiper-slide" data-category="facial">
+          <div
+            class="swiper-slide"
+            data-category="Facial"
+            onclick="selectService('Facial')"
+          >
             <img
               src="images/face.jpg"
               alt="Facial"
@@ -125,9 +141,52 @@
           </div>
         </div>
       </div>
+      <div
+        id="calendarModal"
+        style="
+          display: none;
+          padding: 1rem;
+          background: #fff;
+          border-radius: 10px;
+          box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+          position: fixed;
+          top: 20%;
+          left: 50%;
+          transform: translateX(-50%);
+          z-index: 1000;
+        "
+      >
+        <h3 id="calendarTitle">Book a service</h3>
+        <select id="subcategorySelect" style="margin-bottom: 1rem; width: 100%">
+          <option value="" disabled selected>Select a service type</option>
+        </select>
+        <input type="date" id="appointmentDate" />
+        <button onclick="confirmAppointment()">Confirm</button>
+        <button
+          onclick="document.getElementById('calendarModal').style.display = 'none'"
+        >
+          Cancel
+        </button>
+      </div>
+
       <section id="contact-section" class="info-section">
         <h2>Contact Us</h2>
         <p>Email: contact@salonspa.com</p>
+      </section>
+      <section id="location" style="margin-top: 4rem; text-align: center">
+        <h2>Visit Us</h2>
+        <p>Autostrada Tiranë-Rinas, km. 12, 1000, Albania</p>
+        <div style="width: 100%; max-width: 1200px; margin: 2rem auto 0">
+          <iframe
+            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2992.5910886384318!2d19.7063579!3d41.40468589999999!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x13502c4d8e14227d%3A0x92c16879aa946786!2sEpoka%20University!5e0!3m2!1sen!2s!4v1748447194857!5m2!1sen!2s"
+            width="100%"
+            height="400"
+            style="border: 0; border-radius: 10px"
+            allowfullscreen=""
+            loading="lazy"
+            referrerpolicy="no-referrer-when-downgrade"
+          ></iframe>
+        </div>
       </section>
     </section>
 
@@ -152,37 +211,113 @@
       id="staff-dashboard"
       class="view"
       style="
-        padding: 1rem;
-        background: #3b2f2f;
+        padding: 2rem;
+        background: #684f3f;
         color: #f5eee6;
-        border-radius: 12px;
+        border-radius: 16px;
+        max-width: 600px;
+        margin: auto;
+        font-family: 'Segoe UI', sans-serif;
       "
     >
-      <h1>Welcome, Staff</h1>
+      <h1 style="margin-bottom: 1rem; font-size: 1.8rem">Welcome, Staff</h1>
+      <p id="staffStatus" style="margin-bottom: 1rem; font-weight: bold"></p>
 
-      <nav style="margin-bottom: 1rem">
-        <button onclick="showStaffPanel('schedulePanel')">Schedule</button>
-        <button onclick="showStaffPanel('updateInfoPanel')">Update Info</button>
+      <!-- Nav Buttons -->
+      <nav style="margin-bottom: 1.5rem; display: flex; gap: 0.5rem">
+        <button
+          onclick="showStaffPanel('schedulePanel')"
+          style="
+            background: #927c66;
+            color: #ffffff;
+            border: none;
+            padding: 0.4rem 0.8rem;
+            border-radius: 6px;
+            font-size: 0.9rem;
+            cursor: pointer;
+          "
+        >
+          Schedule
+        </button>
+        <button
+          onclick="showStaffPanel('updateInfoPanel')"
+          style="
+            background: #927c66;
+            color: #ffffff;
+            border: none;
+            padding: 0.4rem 0.8rem;
+            border-radius: 6px;
+            font-size: 0.9rem;
+            cursor: pointer;
+          "
+        >
+          Update Info
+        </button>
       </nav>
 
       <!-- Appointment Schedule Panel -->
       <div id="schedulePanel" class="staff-panel">
-        <h2>Today's Appointments</h2>
-        <ul id="appointmentList"></ul>
+        <h2 style="font-size: 1.4rem; margin-bottom: 0.5rem">
+          Today's Appointments
+        </h2>
+        <ul
+          id="appointmentList"
+          style="list-style: none; padding: 0; margin: 0"
+        ></ul>
       </div>
 
       <!-- Update Info Panel -->
       <div id="updateInfoPanel" class="staff-panel" style="display: none">
-        <h2>Update Info</h2>
+        <h2 style="font-size: 1.4rem; margin-bottom: 0.5rem">Update Info</h2>
         <form onsubmit="updateStaffInfo(event)">
-          <input type="text" id="staffName" placeholder="Your Name" />
-          <input type="text" id="staffPhone" placeholder="Phone Number" />
-          <label>Specialties:</label><br />
-          <label><input type="checkbox" value="Hair" /> Hair</label><br />
-          <label><input type="checkbox" value="Massage" /> Massage</label><br />
-          <label><input type="checkbox" value="Nails" /> Nails</label><br />
-          <label><input type="checkbox" value="Facial" /> Facial</label><br />
-          <button type="submit">Save Changes</button>
+          <input
+            type="text"
+            id="staffName"
+            placeholder="Your Name"
+            style="
+              width: 100%;
+              padding: 0.5rem;
+              margin-bottom: 0.5rem;
+              border-radius: 6px;
+              border: none;
+            "
+          />
+          <input
+            type="text"
+            id="staffPhone"
+            placeholder="Phone Number"
+            style="
+              width: 100%;
+              padding: 0.5rem;
+              margin-bottom: 0.5rem;
+              border-radius: 6px;
+              border: none;
+            "
+          />
+          <label style="display: block; margin: 0.5rem 0 0.25rem"
+            >Specialties:</label
+          >
+          <div style="display: flex; flex-wrap: wrap; gap: 0.5rem">
+            <label><input type="checkbox" value="Hair" /> Hair</label>
+            <label><input type="checkbox" value="Massage" /> Massage</label>
+            <label><input type="checkbox" value="Nails" /> Nails</label>
+            <label><input type="checkbox" value="Facial" /> Facial</label>
+          </div>
+          <button
+            type="submit"
+            style="
+              margin-top: 1rem;
+              background: #e0a96d;
+              color: #3b2f2f;
+              border: none;
+              padding: 0.4rem 1rem;
+              border-radius: 6px;
+              font-size: 0.9rem;
+              cursor: pointer;
+            "
+          >
+            Save Changes
+          </button>
         </form>
       </div>
 
@@ -190,11 +325,12 @@
       <button
         style="
           margin-top: 2rem;
-          background: #e0a96d;
-          color: #3b2f2f;
-          border: none;
-          padding: 0.5rem 1rem;
+          background: transparent;
+          border: 1px solid #e0a96d;
+          color: #e0a96d;
+          padding: 0.4rem 0.8rem;
           border-radius: 6px;
+          font-size: 0.9rem;
           cursor: pointer;
         "
         onclick="logout()"
@@ -217,8 +353,10 @@
 
       <nav style="margin-bottom: 1rem">
         <button onclick="showPanel('servicesPanel')">Manage Services</button>
-        <button onclick="showPanel('staffPanel')">Manage Staff</button>
-        <button onclick="showPanel('usersPanel')">User Roles</button>
+
+        <!-- Replace both buttons with one -->
+        <button onclick="showPanel('usersPanel')">Manage Users</button>
+
         <button onclick="showPanel('reportsPanel')">Reports</button>
         <button onclick="showPanel('inventoryPanel')">Inventory</button>
       </nav>
@@ -237,7 +375,11 @@
       </div>
 
       <div id="usersPanel" class="admin-panel" style="display: none">
-        <h2>User Role Assignment</h2>
+        <h2>Manage Users</h2>
+
+        <button onclick="showAddUserModal()" style="margin-bottom: 1rem">
+          Add User
+        </button>
         <ul id="userList"></ul>
       </div>
 
@@ -277,7 +419,43 @@
         Logout
       </button>
     </section>
-
+    <!-- Location Section -->
+    <div
+      id="addUserModal"
+      style="
+        display: none;
+        position: fixed;
+        top: 20%;
+        left: 50%;
+        transform: translateX(-50%);
+        background: #f5eee6;
+        color: #3b2f2f;
+        padding: 1rem;
+        border-radius: 12px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+        z-index: 1000;
+        min-width: 300px;
+      "
+    >
+      <h3>Add New User</h3>
+      <input
+        id="newUserName"
+        placeholder="Name"
+        style="display: block; width: 100%; margin-bottom: 0.5rem"
+      />
+      <input
+        id="newUserPassword"
+        placeholder="Password"
+        type="password"
+        style="display: block; width: 100%; margin-bottom: 0.5rem"
+      />
+      <select id="newUserRole" style="width: 100%; margin-bottom: 1rem">
+        <option value="customer">Customer</option>
+        <option value="staff">Staff</option>
+      </select>
+      <button onclick="addUser()" style="margin-right: 0.5rem">Add</button>
+      <button onclick="hideAddUserModal()">Cancel</button>
+    </div>
     <script>
       // Sample data
       let services = [
@@ -345,26 +523,29 @@
           const li = document.createElement("li");
           li.textContent = `${user.name} - Role: ${user.role}`;
 
-          if (user.role === "customer") {
-            const promoteBtn = document.createElement("button");
-            promoteBtn.textContent = "Make Staff";
-            promoteBtn.style.marginLeft = "1rem";
-            promoteBtn.onclick = () => {
-              user.role = "staff";
-              renderUsers();
-            };
-            li.appendChild(promoteBtn);
-          } else if (user.role === "staff") {
-            const demoteBtn = document.createElement("button");
-            demoteBtn.textContent = "Make Customer";
-            demoteBtn.style.marginLeft = "1rem";
-            demoteBtn.onclick = () => {
-              user.role = "customer";
-              renderUsers();
-            };
-            li.appendChild(demoteBtn);
-          }
+          // Toggle role button
+          const toggleBtn = document.createElement("button");
+          toggleBtn.textContent =
+            user.role === "customer" ? "Make Staff" : "Make Customer";
+          toggleBtn.style.marginLeft = "1rem";
+          toggleBtn.onclick = () => {
+            user.role = user.role === "customer" ? "staff" : "customer";
+            renderUsers();
+          };
 
+          // Remove user button
+          const removeBtn = document.createElement("button");
+          removeBtn.textContent = "Remove";
+          removeBtn.style.marginLeft = "1rem";
+          removeBtn.onclick = () => {
+            if (confirm(`Remove user ${user.name}?`)) {
+              users = users.filter((u) => u.id !== user.id);
+              renderUsers();
+            }
+          };
+
+          li.appendChild(toggleBtn);
+          li.appendChild(removeBtn);
           list.appendChild(li);
         });
       }
@@ -389,6 +570,38 @@
 
         // Add active class to login-section
         document.getElementById("login-section").classList.add("active");
+      }
+      function showAddUserModal() {
+        document.getElementById("addUserModal").style.display = "block";
+      }
+
+      function hideAddUserModal() {
+        document.getElementById("addUserModal").style.display = "none";
+      }
+
+      function addUser() {
+        const name = document.getElementById("newUserName").value.trim();
+        const password = document.getElementById("newUserPassword").value; // optional
+        const role = document.getElementById("newUserRole").value;
+
+        if (!name || !role) {
+          alert("Please fill in all fields.");
+          return;
+        }
+
+        const newId = users.length
+          ? Math.max(...users.map((u) => u.id)) + 1
+          : 1;
+        users.push({ id: newId, name, role });
+
+        // Optionally store password somewhere if needed
+        renderUsers();
+        hideAddUserModal();
+
+        // Clear fields
+        document.getElementById("newUserName").value = "";
+        document.getElementById("newUserPassword").value = "";
+        document.getElementById("newUserRole").value = "customer";
       }
 
       // Initial render
