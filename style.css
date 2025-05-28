@@ -1,0 +1,416 @@
+/* === Reset & Global Styles === */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Inter", sans-serif;
+}
+
+body {
+  background: #f8f8f8;
+  color: #333;
+  overflow-x: hidden;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+/* === Utility === */
+.hidden {
+  display: none;
+}
+
+/* === Views === */
+.view {
+  display: none;
+  padding: 2rem;
+  min-height: 100vh;
+}
+
+.view.active {
+  display: block;
+  animation: fadeIn 0.6s ease-out;
+}
+
+/* === Animations === */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideIn {
+  from {
+    transform: scale(0.9);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+@keyframes fadeInOut {
+  0% {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  10%,
+  90% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+}
+
+@keyframes slideUpFadeIn {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeSlideIn {
+  0% {
+    opacity: 0;
+    transform: translateY(-25px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* === Form Elements === */
+input,
+select,
+button {
+  width: 100%;
+  padding: 0.75rem;
+  margin: 0.5rem 0;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 1rem;
+}
+
+button {
+  background: #e4ac46;
+  color: white;
+  border: none;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+button:hover {
+  background: #bb5c1dd9;
+}
+
+/* === Login Box === */
+.login-box {
+  max-width: 400px;
+  margin: 5rem auto;
+  padding: 2rem;
+  background: white;
+  border-radius: 10px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+  animation: slideIn 0.7s ease;
+}
+
+/* === Navbar === */
+.user-navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 2rem;
+  background-color: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px); /* Safari support */
+  border-bottom: 1px solid #e2e2e2;
+  position: fixed;
+  top: 0;
+  z-index: 1000;
+  font-weight: 600;
+  color: white;
+}
+
+.user-navbar .nav-left {
+  font-weight: 700;
+  font-size: 1.5rem;
+  color: #ffffff;
+}
+
+.user-navbar .nav-right a {
+  margin-left: 1.5rem;
+  text-decoration: none;
+  font-weight: 500;
+  color: #ffffff;
+  transition: color 0.3s;
+}
+
+.user-navbar .nav-right a:hover {
+  color: #ffffff;
+}
+
+.user-navbar a.book-button {
+  background-color: #ad8522;
+  color: #ffffff !important;
+  padding: 0.4rem 1.1rem;
+  border-radius: 20px;
+  font-weight: 700;
+}
+
+.user-navbar a.book-button:hover {
+  background-color: #976d21;
+}
+
+/* === Welcome & Info Sections === */
+#welcome-text,
+.welcome-description,
+.select-service-label {
+  text-align: center;
+  margin: 0 auto;
+  max-width: 600px;
+  padding: 0 1rem;
+}
+
+.welcome-text {
+  text-align: center;
+  opacity: 0;
+  transform: translateY(30px);
+  animation: fadeSlideIn 4s ease forwards;
+  animation-delay: 2s;
+  font-weight: 700;
+  font-size: 2.75rem;
+  margin-top: 10rem;
+  margin-bottom: 1rem;
+  color: #ffffff;
+  line-height: 1.2;
+  letter-spacing: 1px;
+}
+
+.welcome-description {
+  font-size: 1.15rem;
+  color: #b5b5b5;
+  margin-top: 3rem;
+  margin-bottom: 8rem;
+  line-height: 1.6;
+  font-weight: 400;
+  opacity: 0;
+  transform: translateY(30px);
+  animation: slideUpFadeIn 5s ease forwards;
+  animation-delay: 2s;
+}
+
+.select-service-label {
+  font-weight: 600;
+  font-size: 1.6rem;
+  margin-top: 3rem;
+  margin-bottom: 1.5rem;
+  color: #ffffff;
+  letter-spacing: 0.5px;
+}
+
+.info-section {
+  padding: 3rem 1.5rem;
+  max-width: 800px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.info-section h2 {
+  font-size: 2rem;
+  margin-bottom: 1rem;
+  color: #ffffff;
+}
+
+.info-section p {
+  font-size: 1.1rem;
+  color: #ffffff;
+  line-height: 1.6;
+  margin-bottom: 6rem;
+}
+
+/* === Parallax Background Section === */
+.parallax-section {
+  background-image: url("images/parallax.jpg");
+  background-attachment: fixed;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  position: relative;
+  height: 400px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  filter: blur(5px);
+}
+
+.parallax-section::after {
+  content: "";
+  filter: blur(5px);
+  position: absolute;
+  inset: 0;
+}
+
+.parallax-content {
+  position: relative;
+  z-index: 1;
+  color: #ffffff;
+  text-align: center;
+  font-size: 2rem;
+  font-weight: 600;
+  text-shadow: 0 2px 6px rgba(0, 0, 0, 0.4);
+}
+
+/* === User Dashboard === */
+#user-dashboard {
+  background-image: url("images/parallax.jpg");
+  background-attachment: fixed;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  min-height: 150vh;
+  position: relative;
+  color: white;
+  padding: 2rem 1rem 4rem;
+  overflow: visible;
+  z-index: 1;
+}
+
+#user-dashboard::before {
+  content: "";
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-image: url("images/parallax.jpg");
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-color: rgba(255, 255, 255, 0.2);
+  filter: blur(5px);
+  opacity: 1;
+  z-index: 1;
+  pointer-events: none;
+}
+
+#user-dashboard > * {
+  position: relative;
+  z-index: 1;
+}
+
+/* === Swiper === */
+.swiper-container {
+  width: 100%;
+  padding: 2rem 0;
+  margin-bottom: 4rem;
+}
+
+.swiper-slide {
+  background: rgba(255, 255, 255, 0.15); /* translucent white */
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border-radius: 10px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.15);
+  text-align: center;
+  padding: 1rem;
+  transition: transform 0.3s ease, background-color 0.3s ease;
+  color: white;
+}
+
+.swiper-slide:hover {
+  transform: translateY(-5px);
+  background: rgba(255, 255, 255, 0.25);
+}
+
+.swiper-slide h3,
+.swiper-slide p {
+  margin: 10px 0;
+  color: #000;
+  text-align: center;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.4);
+  color: #fff;
+  font-size: 16px;
+  text-align: center;
+  overflow: visible;
+}
+
+/* === Popup === */
+.popup {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  background: #94711a;
+  color: white;
+  padding: 1rem 1.5rem;
+  border-radius: 6px;
+  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+  animation: fadeInOut 3s ease forwards;
+}
+
+/* === Contact Section === */
+#contact-section {
+  position: relative;
+  z-index: 10;
+  background: transparent;
+  color: #000000;
+  max-width: 800px;
+  border-radius: 8px;
+}
+
+.service-section {
+  display: none;
+  padding: 2rem;
+  margin-top: 2rem;
+  background: rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(8px);
+  border-radius: 10px;
+  color: white;
+  text-align: center;
+}
+
+.service-section.active {
+  display: block;
+  animation: fadeSlideIn 0.6s ease-out;
+}
+
+@keyframes fadeSlideIn {
+  from {
+    opacity: 0;
+    transform: translateY(15px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+#admin-dashboard button {
+  padding: 0.25rem 0.6rem; /* thinner vertical padding and narrower horizontal */
+  min-width: 60px; /* sets a reasonable min width */
+  max-width: fit-content; /* shrink to content width */
+  font-size: 0.9rem; /* slightly smaller text */
+  border-radius: 5px;
+  margin-left: 0.5rem; /* spacing between buttons */
+  cursor: pointer;
+  background: #e0a96d;
+  border: none;
+  color: #3b2f2f;
+  transition: background-color 0.3s ease;
+}
+
+#admin-dashboard button:hover {
+  background: #d49c58;
+}
+
+

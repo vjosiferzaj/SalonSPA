@@ -1,0 +1,405 @@
+<!-- Full HTML Template Structure -->
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Salon & Spa Booking Portal</title>
+    <link rel="stylesheet" href="style.css" />
+    <script src="script.js" defer></script>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://unpkg.com/swiper/swiper-bundle.min.css"
+    />
+    <style>
+      .swiper-slide img {
+        width: 100%;
+        height: 180px;
+        object-fit: cover;
+        border-radius: 10px;
+      }
+      .swiper-button-prev,
+      .swiper-button-next {
+        color: rgba(128, 128, 128, 0.5);
+        font-size: 28px;
+        font-weight: bold;
+      }
+      .back-button {
+        display: inline-block;
+        margin-top: 1rem;
+        color: #555;
+        font-size: 14px;
+        text-decoration: underline;
+        cursor: pointer;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Login Page -->
+    <section id="login-section" class="view active">
+      <div class="login-box">
+        <h2>Login</h2>
+        <form id="login-form">
+          <select id="role-select">
+            <option value="user">Customer</option>
+            <option value="staff">Staff</option>
+            <option value="admin">Admin</option>
+          </select>
+          <input type="text" placeholder="Username" required />
+          <input type="password" placeholder="Password" required />
+          <button type="submit">Login</button>
+        </form>
+      </div>
+    </section>
+
+    <!-- User Dashboard -->
+    <section id="user-dashboard" class="view">
+      <nav class="user-navbar">
+        <div class="nav-left">Salon & Spa</div>
+        <div class="nav-right">
+          <a href="#about-section">About Us</a>
+          <a href="#contact-section">Contact</a>
+          <a href="profile.html" class="profile-button">Profile</a>
+          <a href="#services-section" class="book-button">Book</a>
+        </div>
+      </nav>
+      <div class="blur-overlay"></div>
+
+      <h1 class="welcome-text">Welcome, Customer</h1>
+      <p class="welcome-description">
+        We're delighted to have you here at our Salon & Spa. Enjoy a relaxing
+        experience with our expert services tailored just for you.
+      </p>
+      <section id="about-section" class="info-section">
+        <h2>About Us</h2>
+        <p>
+          At our Salon & Spa, we believe self-care is essential. Our team of
+          skilled professionals is dedicated to providing high-quality
+          treatments in a relaxing, welcoming environment. Whether you're here
+          for a quick trim or a full day of pampering, your satisfaction is our
+          top priority.
+        </p>
+      </section>
+      <h2 class="select-service-label">Select a Service</h2>
+      <div class="swiper-container">
+        <div class="swiper-wrapper">
+          <div class="swiper-slide" data-category="hair">
+            <img
+              src="images/hair.jpg"
+              alt="Hair"
+              style="width: 100%; border-radius: 10px"
+            />
+            <h3>Hair</h3>
+            <p>Haircuts, coloring, styling</p>
+          </div>
+          <div class="swiper-slide" data-category="nails">
+            <img
+              src="images/nails.jpg"
+              alt="Nails"
+              style="width: 100%; border-radius: 10px"
+            />
+            <h3>Nails</h3>
+            <p>Manicure, pedicure, nail art</p>
+          </div>
+          <div class="swiper-slide" data-category="massage">
+            <img
+              src="images/massage.jpg"
+              alt="Massage"
+              style="width: 100%; border-radius: 10px"
+            />
+            <h3>Massage</h3>
+            <p>Swedish, deep tissue, aromatherapy</p>
+          </div>
+          <div class="swiper-slide" data-category="facial">
+            <img
+              src="images/face.jpg"
+              alt="Facial"
+              style="width: 100%; border-radius: 10px"
+            />
+            <h3>Facial</h3>
+            <p>Exfoliation, hydration, anti-aging</p>
+          </div>
+        </div>
+      </div>
+      <section id="contact-section" class="info-section">
+        <h2>Contact Us</h2>
+        <p>Email: contact@salonspa.com</p>
+      </section>
+    </section>
+
+    <!-- Booking Page -->
+    <section id="booking-page" class="view">
+      <h2>Book Service</h2>
+      <form id="booking-form">
+        <input type="text" placeholder="Your Name" required />
+        <input type="text" placeholder="Phone Number" required />
+        <select id="service-select"></select>
+        <select id="staff-select"></select>
+        <input type="date" required />
+        <input type="time" required />
+        <button type="submit">Confirm Booking</button>
+      </form>
+      <div id="booking-success" class="popup hidden">Booking Successful!</div>
+      <div class="back-button" id="back-to-dashboard">&larr; Go Back</div>
+    </section>
+
+    <!-- Staff & Admin dashboards (placeholders) -->
+    <section
+      id="staff-dashboard"
+      class="view"
+      style="
+        padding: 1rem;
+        background: #3b2f2f;
+        color: #f5eee6;
+        border-radius: 12px;
+      "
+    >
+      <h1>Welcome, Staff</h1>
+
+      <nav style="margin-bottom: 1rem">
+        <button onclick="showStaffPanel('schedulePanel')">Schedule</button>
+        <button onclick="showStaffPanel('updateInfoPanel')">Update Info</button>
+      </nav>
+
+      <!-- Appointment Schedule Panel -->
+      <div id="schedulePanel" class="staff-panel">
+        <h2>Today's Appointments</h2>
+        <ul id="appointmentList"></ul>
+      </div>
+
+      <!-- Update Info Panel -->
+      <div id="updateInfoPanel" class="staff-panel" style="display: none">
+        <h2>Update Info</h2>
+        <form onsubmit="updateStaffInfo(event)">
+          <input type="text" id="staffName" placeholder="Your Name" />
+          <input type="text" id="staffPhone" placeholder="Phone Number" />
+          <label>Specialties:</label><br />
+          <label><input type="checkbox" value="Hair" /> Hair</label><br />
+          <label><input type="checkbox" value="Massage" /> Massage</label><br />
+          <label><input type="checkbox" value="Nails" /> Nails</label><br />
+          <label><input type="checkbox" value="Facial" /> Facial</label><br />
+          <button type="submit">Save Changes</button>
+        </form>
+      </div>
+
+      <!-- Logout -->
+      <button
+        style="
+          margin-top: 2rem;
+          background: #e0a96d;
+          color: #3b2f2f;
+          border: none;
+          padding: 0.5rem 1rem;
+          border-radius: 6px;
+          cursor: pointer;
+        "
+        onclick="logout()"
+      >
+        Logout
+      </button>
+    </section>
+
+    <section
+      id="admin-dashboard"
+      class="view"
+      style="
+        padding: 1rem;
+        color: #f5eee6;
+        background: #3b2f2f;
+        border-radius: 12px;
+      "
+    >
+      <h1>Welcome, Admin</h1>
+
+      <nav style="margin-bottom: 1rem">
+        <button onclick="showPanel('servicesPanel')">Manage Services</button>
+        <button onclick="showPanel('staffPanel')">Manage Staff</button>
+        <button onclick="showPanel('usersPanel')">User Roles</button>
+        <button onclick="showPanel('reportsPanel')">Reports</button>
+        <button onclick="showPanel('inventoryPanel')">Inventory</button>
+      </nav>
+
+      <div id="servicesPanel" class="admin-panel">
+        <h2>Manage Services</h2>
+        <input id="newServiceName" placeholder="Service Name" />
+        <input id="newServicePrice" placeholder="Price" type="number" min="0" />
+        <button onclick="addService()">Add Service</button>
+        <ul id="serviceList"></ul>
+      </div>
+
+      <div id="staffPanel" class="admin-panel" style="display: none">
+        <h2>Manage Staff Accounts</h2>
+        <p><em>Coming soon</em></p>
+      </div>
+
+      <div id="usersPanel" class="admin-panel" style="display: none">
+        <h2>User Role Assignment</h2>
+        <ul id="userList"></ul>
+      </div>
+
+      <div id="reportsPanel" class="admin-panel" style="display: none">
+        <h2>Reports</h2>
+        <button onclick="generateReport('revenue')">
+          Generate Revenue Report
+        </button>
+        <button onclick="generateReport('services')">
+          Generate Services Report
+        </button>
+        <button onclick="generateReport('staffPerformance')">
+          Generate Staff Performance Report
+        </button>
+        <br />
+        <button onclick="exportReport('pdf')">Export PDF</button>
+        <button onclick="exportReport('excel')">Export Excel</button>
+      </div>
+
+      <div id="inventoryPanel" class="admin-panel" style="display: none">
+        <h2>Inventory Management</h2>
+        <p><em>Coming soon</em></p>
+      </div>
+
+      <button
+        style="
+          margin-top: 2rem;
+          background: #e0a96d;
+          color: #3b2f2f;
+          border: none;
+          padding: 0.5rem 1rem;
+          border-radius: 6px;
+          cursor: pointer;
+        "
+        onclick="logout()"
+      >
+        Logout
+      </button>
+    </section>
+
+    <script>
+      // Sample data
+      let services = [
+        { id: 1, name: "Haircut", price: 30 },
+        { id: 2, name: "Massage", price: 60 },
+      ];
+
+      let users = [
+        { id: 1, name: "Alice", role: "customer" },
+        { id: 2, name: "Bob", role: "staff" },
+        { id: 3, name: "Carol", role: "customer" },
+      ];
+
+      // Show selected panel only
+      function showPanel(panelId) {
+        document.querySelectorAll(".admin-panel").forEach((p) => {
+          p.style.display = p.id === panelId ? "block" : "none";
+        });
+      }
+
+      // Render services list
+      function renderServices() {
+        const list = document.getElementById("serviceList");
+        list.innerHTML = "";
+        services.forEach((service) => {
+          const li = document.createElement("li");
+          li.textContent = `${service.name} - $${service.price.toFixed(2)}`;
+          const removeBtn = document.createElement("button");
+          removeBtn.textContent = "Remove";
+          removeBtn.style.marginLeft = "1rem";
+          removeBtn.onclick = () => {
+            services = services.filter((s) => s.id !== service.id);
+            renderServices();
+          };
+          li.appendChild(removeBtn);
+          list.appendChild(li);
+        });
+      }
+
+      // Add new service
+      function addService() {
+        const nameInput = document.getElementById("newServiceName");
+        const priceInput = document.getElementById("newServicePrice");
+        const name = nameInput.value.trim();
+        const price = parseFloat(priceInput.value);
+
+        if (!name || isNaN(price) || price < 0) {
+          alert("Please enter a valid name and price.");
+          return;
+        }
+        const newId = services.length
+          ? Math.max(...services.map((s) => s.id)) + 1
+          : 1;
+        services.push({ id: newId, name, price });
+        nameInput.value = "";
+        priceInput.value = "";
+        renderServices();
+      }
+
+      // Render users list for role assignment
+      function renderUsers() {
+        const list = document.getElementById("userList");
+        list.innerHTML = "";
+        users.forEach((user) => {
+          const li = document.createElement("li");
+          li.textContent = `${user.name} - Role: ${user.role}`;
+
+          if (user.role === "customer") {
+            const promoteBtn = document.createElement("button");
+            promoteBtn.textContent = "Make Staff";
+            promoteBtn.style.marginLeft = "1rem";
+            promoteBtn.onclick = () => {
+              user.role = "staff";
+              renderUsers();
+            };
+            li.appendChild(promoteBtn);
+          } else if (user.role === "staff") {
+            const demoteBtn = document.createElement("button");
+            demoteBtn.textContent = "Make Customer";
+            demoteBtn.style.marginLeft = "1rem";
+            demoteBtn.onclick = () => {
+              user.role = "customer";
+              renderUsers();
+            };
+            li.appendChild(demoteBtn);
+          }
+
+          list.appendChild(li);
+        });
+      }
+
+      // Placeholder report generation functions
+      function generateReport(type) {
+        alert(`Generating ${type} report... (functionality coming soon)`);
+      }
+
+      // Placeholder export functions
+      function exportReport(format) {
+        alert(
+          `Exporting report as ${format.toUpperCase()}... (functionality coming soon)`
+        );
+      }
+
+      // Logout: redirect to login page
+      function logout() {
+        document.querySelectorAll(".view").forEach((section) => {
+          section.classList.remove("active");
+        });
+
+        // Add active class to login-section
+        document.getElementById("login-section").classList.add("active");
+      }
+
+      // Initial render
+      renderServices();
+      renderUsers();
+
+      // Show Manage Services panel by default
+      showPanel("servicesPanel");
+    </script>
+
+    <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
+    <script src="script.js"></script>
+  </body>
+</html>

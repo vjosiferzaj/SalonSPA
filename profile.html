@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>User Profile</title>
+    <link rel="stylesheet" href="profile.css" />
+  </head>
+  <body>
+    <h1>Welcome to Your Profile</h1>
+
+    <!-- Change Password -->
+    <section>
+      <h2>Change Password</h2>
+      <input
+        type="password"
+        id="currentPassword"
+        placeholder="Current Password"
+      />
+      <input type="password" id="newPassword" placeholder="New Password" />
+      <button onclick="changePassword()">Update Password</button>
+    </section>
+
+    <!-- Appointments -->
+    <section>
+      <h2>Upcoming Appointments</h2>
+      <ul id="upcomingAppointments"></ul>
+
+      <h2>Past Appointments</h2>
+      <ul id="pastAppointments"></ul>
+    </section>
+
+    <!-- Feedback -->
+    <section>
+      <h2>Submit Feedback</h2>
+      <div id="star-rating">
+        <span class="star" data-star="1">★</span>
+        <span class="star" data-star="2">★</span>
+        <span class="star" data-star="3">★</span>
+        <span class="star" data-star="4">★</span>
+        <span class="star" data-star="5">★</span>
+      </div>
+      <textarea
+        id="feedbackDescription"
+        placeholder="Your feedback..."
+      ></textarea>
+      <button onclick="submitFeedback()">Submit Feedback</button>
+    </section>
+
+    <!-- Logout -->
+    <section>
+      <button onclick="logout()">Logout</button>
+    </section>
+
+    <script>
+      // Dummy appointments
+      let upcoming = [
+        { id: 1, date: "2025-06-01", service: "Haircut" },
+        { id: 2, date: "2025-06-05", service: "Facial" },
+      ];
+
+      let past = [{ id: 3, date: "2025-05-01", service: "Massage" }];
+
+      function renderAppointments(list, containerId) {
+        const container = document.getElementById(containerId);
+        container.innerHTML = "";
+        list.forEach((app) => {
+          let li = document.createElement("li");
+          li.innerHTML = `
+          ${app.date} - ${app.service}
+          ${
+            containerId === "upcomingAppointments"
+              ? `<button onclick="cancelAppointment(${app.id})">Cancel</button>
+               <button onclick="rescheduleAppointment(${app.id})">Reschedule</button>`
+              : ""
+          }
+        `;
+          container.appendChild(li);
+        });
+      }
+
+      function cancelAppointment(id) {
+        alert("Appointment ID " + id + " cancelled");
+      }
+      function confirmCancel(id) {
+        const confirmBox = confirm(
+          "Are you sure you want to cancel this appointment?"
+        );
+        if (confirmBox) {
+          upcoming = upcoming.filter((app) => app.id !== id);
+          renderAppointments(upcoming, "upcomingAppointments");
+        }
+      }
+      function rescheduleAppointment(id) {
+        alert("Reschedule logic for appointment ID " + id);
+      }
+      function openReschedule(id) {
+        let newDate = prompt("Pick a new date (YYYY-MM-DD):");
+        if (newDate && /^\d{4}-\d{2}-\d{2}$/.test(newDate)) {
+          let app = upcoming.find((app) => app.id === id);
+          if (app) {
+            app.date = newDate;
+            renderAppointments(upcoming, "upcomingAppointments");
+            alert("Appointment rescheduled to " + newDate);
+          }
+        } else if (newDate) {
+          alert("Invalid date format. Use YYYY-MM-DD.");
+        }
+      }
+      function changePassword() {
+        let current = document.getElementById("currentPassword").value;
+        let newPass = document.getElementById("newPassword").value;
+        alert("Password updated (demo)");
+      }
+
+      let selectedRating = 0;
+      document.querySelectorAll(".star").forEach((star) => {
+        star.addEventListener("click", () => {
+          selectedRating = parseInt(star.dataset.star);
+          document.querySelectorAll(".star").forEach((s) => {
+            s.classList.toggle(
+              "selected",
+              parseInt(s.dataset.star) <= selectedRating
+            );
+          });
+        });
+      });
+
+      function submitFeedback() {
+        const description = document.getElementById(
+          "feedbackDescription"
+        ).value;
+        alert(`Feedback submitted:\n${selectedRating} stars\n${description}`);
+      }
+
+      function logout() {
+        window.location.href = "index.html#login-section"; // adjust to your main page name
+      }
+
+      // Load dummy data
+      renderAppointments(upcoming, "upcomingAppointments");
+      renderAppointments(past, "pastAppointments");
+    </script>
+  </body>
+</html>
