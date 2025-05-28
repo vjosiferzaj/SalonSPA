@@ -149,6 +149,108 @@ function updateStaffInfo(e) {
   );
 }
 
+let selectedService = "";
+
+function selectService(service) {
+  selectedService = service;
+  document.getElementById(
+    "calendarTitle"
+  ).innerText = `Select date for ${service}`;
+  document.getElementById("calendarModal").style.display = "block";
+}
+
+function confirmAppointment() {
+  const date = document.getElementById("appointmentDate").value;
+  if (!date) {
+    alert("Please select a date");
+    return;
+  }
+
+  let appointments = JSON.parse(
+    localStorage.getItem("upcomingAppointments") || "[]"
+  );
+  appointments.push({ id: Date.now(), date, service: selectedService });
+  localStorage.setItem("upcomingAppointments", JSON.stringify(appointments));
+
+  alert(`${selectedService} booked for ${date}`);
+  document.getElementById("calendarModal").style.display = "none";
+  document.getElementById("appointmentDate").value = "";
+}
+// Dummy upcoming list
+document.addEventListener("DOMContentLoaded", () => {
+  const subcategories = {
+    Hair: ["Haircut", "Coloring", "Styling"],
+    Nails: ["Manicure", "Pedicure", "Nail Art"],
+    Massage: ["Swedish", "Deep Tissue", "Aromatherapy"],
+    Facial: ["Exfoliation", "Hydration", "Anti-aging"],
+  };
+
+  let upcoming = [];
+
+  function openCalendar(category) {
+    const modal = document.getElementById("calendarModal");
+    const title = document.getElementById("calendarTitle");
+    const select = document.getElementById("subcategorySelect");
+    const dateInput = document.getElementById("appointmentDate");
+
+    title.textContent = `Book a ${
+      category.charAt(0).toUpperCase() + category.slice(1)
+    } service`;
+
+    // Clear and populate dropdown
+    select.innerHTML =
+      '<option value="" disabled selected>Select a type</option>';
+    const options = subcategories[category];
+
+    if (options && options.length) {
+      options.forEach((item) => {
+        const option = document.createElement("option");
+        option.value = item;
+        option.textContent = item;
+        select.appendChild(option);
+      });
+    } else {
+      console.error(`No subcategories found for category: ${category}`);
+    }
+
+    dateInput.value = "";
+    modal.dataset.category = category;
+    modal.style.display = "block";
+  }
+
+  function confirmAppointment() {
+    const modal = document.getElementById("calendarModal");
+    const subcategory = document.getElementById("subcategorySelect").value;
+    const date = document.getElementById("appointmentDate").value;
+
+    if (!subcategory) return alert("Please choose a service type.");
+    if (!date) return alert("Please choose a date.");
+
+    upcoming.push({ id: Date.now(), service: subcategory, date });
+
+    alert(`Appointment booked:\n${subcategory} on ${date}`);
+    closeModal();
+  }
+
+  function closeModal() {
+    document.getElementById("calendarModal").style.display = "none";
+  }
+
+  // Attach card click listeners AFTER DOM is loaded
+  document.querySelectorAll(".swiper-slide").forEach((card) => {
+    card.addEventListener("click", () => {
+      const category = card.getAttribute("data-category");
+      openCalendar(category);
+    });
+  });
+
+  // Expose functions to global scope if needed by buttons
+  window.confirmAppointment = confirmAppointment;
+  window.closeModal = closeModal;
+});
+
+
+
 // Render on load
 renderAppointments();
 showStaffPanel("schedulePanel");
