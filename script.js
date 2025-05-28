@@ -192,6 +192,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const title = document.getElementById("calendarTitle");
     const select = document.getElementById("subcategorySelect");
     const dateInput = document.getElementById("appointmentDate");
+    const timeSelect = document.getElementById("timeSlotSelect");
 
     title.textContent = `Book a ${
       category.charAt(0).toUpperCase() + category.slice(1)
@@ -212,23 +213,47 @@ document.addEventListener("DOMContentLoaded", () => {
     } else {
       console.error(`No subcategories found for category: ${category}`);
     }
+    timeSelect.innerHTML =
+      '<option value="" disabled selected>Select a time</option>';
+    const startHour = 9; // 9 AM
+    const endHour = 17; // 5 PM
+    const intervalMinutes = 30;
 
+    for (let hour = startHour; hour < endHour; hour++) {
+      for (let min = 0; min < 60; min += intervalMinutes) {
+        const timeStr = formatTime(hour, min);
+        const option = document.createElement("option");
+        option.value = timeStr;
+        option.textContent = timeStr;
+        timeSelect.appendChild(option);
+      }
+    }
     dateInput.value = "";
+    timeSelect.value = "";
     modal.dataset.category = category;
     modal.style.display = "block";
+  }
+
+  function formatTime(hour24, minute) {
+    const period = hour24 >= 12 ? "PM" : "AM";
+    const hour12 = hour24 % 12 === 0 ? 12 : hour24 % 12;
+    const minStr = minute < 10 ? `0${minute}` : minute;
+    return `${hour12}:${minStr} ${period}`;
   }
 
   function confirmAppointment() {
     const modal = document.getElementById("calendarModal");
     const subcategory = document.getElementById("subcategorySelect").value;
     const date = document.getElementById("appointmentDate").value;
+    const time = document.getElementById("timeSlotSelect").value;
 
     if (!subcategory) return alert("Please choose a service type.");
     if (!date) return alert("Please choose a date.");
+    if (!time) return alert("Please choose a time slot.");
 
-    upcoming.push({ id: Date.now(), service: subcategory, date });
+    upcoming.push({ id: Date.now(), service: subcategory, date, time });
 
-    alert(`Appointment booked:\n${subcategory} on ${date}`);
+    alert(`Appointment booked:\n${subcategory} on ${date} at ${time}`);
     closeModal();
   }
 
@@ -249,7 +274,122 @@ document.addEventListener("DOMContentLoaded", () => {
   window.closeModal = closeModal;
 });
 
+let isRegistering = false;
 
+function toggleAuthMode() {
+  isRegistering = !isRegistering;
+
+  document.getElementById("formTitle").textContent = isRegistering
+    ? "Register"
+    : "Login";
+  document.getElementById("submitBtn").textContent = isRegistering
+    ? "Register"
+    : "Login";
+  document.getElementById("toggleModeBtn").textContent = isRegistering
+    ? "Login"
+    : "Register";
+
+  const adminOption = document.querySelector(
+    '#role-select option[value="admin"]'
+  );
+  adminOption.disabled = isRegistering;
+
+  document.getElementById("login-form").reset();
+}
+
+function handleAuth(event) {
+  event.preventDefault();
+
+  const username = document.getElementById("username").value.trim();
+  const password = document.getElementById("password").value.trim();
+  const role = document.getElementById("role-select").value;
+
+  if (!username || !password) {
+    alert("Please enter both username and password.");
+    return;
+  }
+
+  if (isRegistering) {
+    if (role === "admin") {
+      //alert("You cannot register as an admin.");
+      return;
+    }
+
+    //alert(`Registered ${username} as ${role}.`);
+
+    // Redirect after register
+    if (role === "staff") {
+      switchToView("staff-dashboard");
+    } else {
+      switchToView("user-dashboard");
+    }
+
+    isRegistering = false;
+    toggleAuthMode();
+  } else {
+    //alert(`Logged in as ${username} (${role})`);
+
+    // Redirect after login
+    if (role === "staff") {
+      switchToView("staff-dashboard");
+    } else if (role === "admin") {
+      switchToView("admin-dashboard");
+    } else {
+      switchToView("user-dashboard");
+    }
+  }
+
+  document.getElementById("login-form").reset();
+}
+
+function switchToView(viewId) {
+  document.querySelectorAll(".view").forEach((section) => {
+    section.classList.remove("active");
+    section.style.display = "none";
+  });
+  const view = document.getElementById(viewId);
+  if (view) {
+    view.classList.add("active");
+    view.style.display = "block";
+  } else {
+    console.warn(`No view found with id: ${viewId}`);
+  }
+}
+
+const dropdown = document.getElementById("role-dropdown");
+const btn = dropdown.querySelector(".dropdown-btn");
+const menu = dropdown.querySelector(".dropdown-menu");
+const hiddenInput = dropdown.querySelector("#role-select");
+
+// Set initial button text to default hidden input value label
+const defaultValue = hiddenInput.value;
+const defaultLabel = menu.querySelector(
+  `li[data-value="${defaultValue}"]`
+).textContent;
+btn.textContent = defaultLabel;
+
+btn.addEventListener("click", () => {
+  dropdown.classList.toggle("open");
+});
+
+menu.querySelectorAll("li").forEach((item) => {
+  item.addEventListener("click", () => {
+    btn.textContent = item.textContent;
+    hiddenInput.value = item.getAttribute("data-value");
+    dropdown.classList.remove("open");
+  });
+});
+
+document.addEventListener("click", (e) => {
+  if (!dropdown.contains(e.target)) {
+    dropdown.classList.remove("open");
+  }
+});
+function showPanel(panelId) {
+  document.querySelectorAll(".admin-panel").forEach((p) => {
+    p.style.display = p.id === panelId ? "block" : "none";
+  });
+}
 
 // Render on load
 renderAppointments();
