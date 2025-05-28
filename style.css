@@ -413,4 +413,9 @@ button:hover {
   background: #d49c58;
 }
 
-
+#location {
+  background-color: #3b2f2f;
+  color: #ebebeb;
+  padding: 2rem 3rem;
+  border-radius: 12px;
+}
