@@ -50,7 +50,7 @@ html {
   display: flex;
   align-items: center;
   gap: 0.6rem;
-  color: #ffffff; 
+  color: #ffffff;
   font-size: 1rem;
 }
 
@@ -131,7 +131,7 @@ button {
 }
 
 button {
-  background: #e4ac46;
+  background: #9e7fa6;
   color: white;
   border: none;
   cursor: pointer;
@@ -139,7 +139,7 @@ button {
 }
 
 button:hover {
-  background: #e3c393d9;
+  background: #caabd2;
 }
 
 /* === Login Box === */
@@ -160,7 +160,7 @@ button:hover {
   display: flex;
   justify-content: center;
   align-items: center;
-  background: #000; 
+  background: #000;
 }
 
 #login-bg-video {
@@ -195,7 +195,7 @@ button:hover {
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   animation: floatIn 1s ease forwards;
-  text-shadow: 0 0 2px #e7ceab;
+  text-shadow: 0 0 2px #9e7fa6;
 }
 
 .user-navbar .nav-left {
@@ -217,7 +217,7 @@ button:hover {
 }
 
 .user-navbar a.book-button {
-  background-color: #e6cca6;
+  background-color: #9e7fa6;
   color: #ffffff !important;
   padding: 0.4rem 1.1rem;
   border-radius: 20px;
@@ -244,14 +244,14 @@ button:hover {
   border-radius: 8px;
   cursor: pointer;
   text-align: left;
-  color: #333; 
+  color: #333;
   transition: border-color 0.3s ease, box-shadow 0.3s ease;
 }
 
 .dropdown-btn:hover,
 .dropdown-btn:focus {
-  border-color: #f2e0c4;
-  box-shadow: 0 0 8px #d7c4a6;
+  border-color: #9e7fa6;
+  box-shadow: 0 0 8px #9e7fa6;
   outline: none;
 }
 
@@ -285,7 +285,7 @@ button:hover {
   user-select: none;
 }
 .dropdown-menu li:hover {
-  background-color: #eed2a4;
+  background-color: #9c82a4;
   color: white;
 }
 
@@ -467,7 +467,7 @@ button:hover {
   position: fixed;
   top: 20px;
   right: 20px;
-  background: #94711a;
+  background: #705877;
   color: white;
   padding: 1rem 1.5rem;
   border-radius: 6px;
@@ -513,25 +513,25 @@ button:hover {
 }
 
 #admin-dashboard button {
-  padding: 0.25rem 0.6rem; 
+  padding: 0.25rem 0.6rem;
   min-width: 60px;
   max-width: fit-content;
-  font-size: 0.9rem; 
+  font-size: 0.9rem;
   border-radius: 5px;
   margin-left: 0.5rem; /* spacing between buttons */
   cursor: pointer;
-  background: #e0a96d;
+  background: #63506a;
   border: none;
   color: #3b2f2f;
   transition: background-color 0.3s ease;
 }
 
 #admin-dashboard button:hover {
-  background: #dfc19d;
+  background: #9c85b4;
 }
 
 #location {
-  background-color: #3b2f2f;
+  background-color: #6b5676;
   color: #ebebeb;
   padding: 2rem 3rem;
   border-radius: 12px;
