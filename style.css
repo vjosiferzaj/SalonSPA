@@ -522,7 +522,7 @@ button:hover {
   cursor: pointer;
   background: #63506a;
   border: none;
-  color: #3b2f2f;
+  color: #ebe5ed;
   transition: background-color 0.3s ease;
 }
 
