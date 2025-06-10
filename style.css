@@ -8,7 +8,7 @@
 
 body {
   background: #f8f8f8;
-  color: #333;
+  color: #a992b3;
   overflow-x: hidden;
 }
 
@@ -225,7 +225,7 @@ button:hover {
 }
 
 .user-navbar a.book-button:hover {
-  background-color: #e7d4b1;
+  background-color: #9e7fa6;
 }
 .custom-dropdown {
   position: relative;
