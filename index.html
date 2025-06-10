@@ -660,9 +660,66 @@
       }
 
       // Placeholder report generation functions
-      function generateReport(type) {
-        alert(`Generating ${type} report... (functionality coming soon)`);
-      }
+  async function generateReport(type) {
+    const { jsPDF } = window.jspdf;
+    const doc = new jsPDF();
+
+    let title = "";
+    let content = [];
+
+    if (type === "revenue") {
+      title = "Revenue Report";
+      content = [
+        ["Month", "Revenue ($)"],
+        ["January", "3200"],
+        ["February", "2800"],
+        ["March", "4100"],
+        ["April", "3700"],
+      ];
+    } else if (type === "services") {
+      title = "Services Report";
+      content = [
+        ["Category", "Service Name"],
+        ["Hair", "Haircut"],
+        ["Hair", "Coloring"],
+        ["Hair", "Styling"],
+        ["Nails", "Manicure"],
+        ["Nails", "Pedicure"],
+        ["Nails", "Nail Art"],
+        ["Massage", "Swedish"],
+        ["Massage", "Deep Tissue"],
+        ["Massage", "Aromatherapy"],
+        ["Facial", "Exfoliation"],
+        ["Facial", "Hydration"],
+        ["Facial", "Anti-aging"],
+      ];
+    } else if (type === "staffPerformance") {
+      title = "Staff Performance Report";
+      content = [
+        ["Staff Name", "Appointments", "Avg Rating"],
+        ["Alice", "48", "4.7"],
+        ["Bob", "53", "4.8"],
+        ["Charlie", "45", "4.6"],
+        ["Diana", "39", "4.9"],
+      ];
+    } else {
+      alert("Unknown report type.");
+      return;
+    }
+
+    // Generate PDF
+    doc.setFontSize(18);
+    doc.text(title, 20, 20);
+    doc.setFontSize(12);
+
+    let startY = 30;
+    content.forEach((row, i) => {
+      const y = startY + i * 10;
+      doc.text(row.join(" | "), 20, y);
+    });
+
+    doc.save(`${type}_report.pdf`);
+  }
 
       // Placeholder export functions
       function exportReport(format) {
