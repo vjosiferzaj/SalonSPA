@@ -20,6 +20,26 @@
       href="https://unpkg.com/swiper/swiper-bundle.min.css"
     />
     <style>
+      .inventory-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+  }
+  .inventory-table th,
+  .inventory-table td {
+    padding: 10px;
+    border: 1px solid #ccc;
+    text-align: center;
+  }
+  .qty-input {
+    width: 60px;
+    text-align: center;
+  }
+  .admin-panel button {
+    padding: 4px 10px;
+    margin: 2px;
+    cursor: pointer;
+  }
       .swiper-slide img {
         width: 100%;
         height: 180px;
@@ -506,11 +526,22 @@
 
       <!-- Inventory Panel -->
       <div id="inventoryPanel" class="admin-panel" style="display: none">
-        <h2>Inventory Management</h2>
-        <p><em>Coming soon</em></p>
-      </div>
+  <h2>Inventory Management</h2>
+  <table id="inventoryTable" class="inventory-table">
+    <thead>
+      <tr>
+        <th>Item</th>
+        <th>Category</th>
+        <th>Quantity</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+    </tbody>
+  </table>
+</div>
 
-      <!-- Logout -->
+
       <button
         onclick="logout()"
         style="
@@ -528,7 +559,6 @@
       </button>
     </section>
 
-    <!-- Location Section -->
     <div
       id="addUserModal"
       style="
@@ -566,6 +596,68 @@
       <button onclick="hideAddUserModal()">Cancel</button>
     </div>
     <script>
+
+      const inventoryItems = [
+    { name: "Shampoo", category: "Hair", quantity: 30 },
+    { name: "Hair Dye - Black", category: "Hair", quantity: 12 },
+    { name: "Styling Gel", category: "Hair", quantity: 18 },
+    { name: "Nail Polish - Red", category: "Nails", quantity: 22 },
+    { name: "Cuticle Oil", category: "Nails", quantity: 15 },
+    { name: "Massage Oil - Lavender", category: "Massage", quantity: 10 },
+    { name: "Facial Cream", category: "Facial", quantity: 25 },
+    { name: "Hydrating Mask", category: "Facial", quantity: 8 },
+  ];
+
+  function renderInventory() {
+    const tbody = document.querySelector("#inventoryTable tbody");
+    tbody.innerHTML = "";
+
+    inventoryItems.forEach((item, index) => {
+      const row = document.createElement("tr");
+
+      row.innerHTML = `
+        <td>${item.name}</td>
+        <td>${item.category}</td>
+        <td>
+          <input
+            type="number"
+            min="0"
+            value="${item.quantity}"
+            data-index="${index}"
+            class="qty-input"
+          />
+        </td>
+        <td>
+          <button onclick="adjustQuantity(${index}, 1)">+</button>
+          <button onclick="adjustQuantity(${index}, -1)">-</button>
+        </td>
+      `;
+
+      tbody.appendChild(row);
+    });
+
+    document.querySelectorAll(".qty-input").forEach((input) => {
+      input.addEventListener("change", (e) => {
+        const idx = parseInt(e.target.dataset.index);
+        const newVal = parseInt(e.target.value);
+        if (!isNaN(newVal) && newVal >= 0) {
+          inventoryItems[idx].quantity = newVal;
+        } else {
+          e.target.value = inventoryItems[idx].quantity;
+        }
+      });
+    });
+  }
+
+  function adjustQuantity(index, delta) {
+    const item = inventoryItems[index];
+    item.quantity = Math.max(0, item.quantity + delta);
+    renderInventory();
+  }
+
+  document.addEventListener("DOMContentLoaded", () => {
+    renderInventory();
+  });
       // Sample data
       let services = [
         { id: 1, name: "Haircut", price: 30 },
